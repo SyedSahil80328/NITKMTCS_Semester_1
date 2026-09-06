@@ -5,12 +5,15 @@ class Graph {
     Node** mainGraph;
     Node** endPoints;
     bool directed;
+    bool weighted;
+    int edges = 0;
     int n;
 
     public:
-        Graph(int n, bool directed) {
+        Graph(int n, bool directed, bool weighted) {
             this->n = n;
             this->directed = directed;
+            this->weighted = weighted;
 
             this->mainGraph = new Node*[this->n];
             this->endPoints = new Node*[this->n];
@@ -29,15 +32,27 @@ class Graph {
             return mainGraph[node];
         }
 
-        void addEdge(int u, int v, int weight) {
-            enqueue(this->mainGraph[u], this->endPoints[u], v, weight);
-            if (not directed) enqueue(this->mainGraph[v], this->endPoints[v], u, weight);
+        void addEdge(int u, int v) {
+            enqueue(this->mainGraph[u], this->endPoints[u], v);
+            if (!directed) {
+                enqueue(this->mainGraph[v], this->endPoints[v], u);
+            }
+            edges++;
+        }
+
+        void addEdge(int u, int v, int w) {
+            enqueue(this->mainGraph[u], this->endPoints[u], v, w);
+            if (!directed) {
+                enqueue(this->mainGraph[v], this->endPoints[v], u, w);
+            }
+            edges++;
         }
 
         void print() {
             for (int i=0 ; i<this->n ; i++) {
                 cout << "Node " << i << ": ";
-                printLinkedList(this->mainGraph[i]);
+                printLinkedList(this->mainGraph[i], weighted);
+                cout << endl;
             }
             cout << endl;
         }

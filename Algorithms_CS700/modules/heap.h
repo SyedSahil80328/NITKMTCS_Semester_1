@@ -1,18 +1,21 @@
-#include <iostream>
-using namespace std;
+struct Edge {
+    int vertexU;
+    int vertexV;
+    int weight;
+};
 
 class Heap {
-    int *heap;
+    Edge *heap;
     int size;
 
     public:
-        Heap (int *heap, int size) {
+        Heap (Edge *heap, int size) {
             this->heap = heap;
             this->size = size;
         }
 
         void swap(int i, int j) {
-            int temp = heap[i];
+            Edge temp = heap[i];
             heap[i] = heap[j];
             heap[j] = temp;
         }
@@ -22,13 +25,13 @@ class Heap {
             int right = (i << 1) + 2;
             int smallest;
 
-            if (left < size and heap[left] < heap[i]) {
+            if (left < size && getWeight(left) < getWeight(i)) {
                 smallest = left;
             } else {
                 smallest = i;
             }
 
-            if (right < size and heap[right] < heap[smallest]) {
+            if (right < size && getWeight(right) < getWeight(smallest)) {
                 smallest = right;
             }
 
@@ -38,8 +41,13 @@ class Heap {
             }
         }
 
-        int pop() {
-            int s = heap[0];
+        Edge pop() {
+            if (size == 0) {
+                Edge error;
+                error.vertexU = error.vertexV = error.weight = -1;
+                return error;
+            }
+            Edge s = heap[0];
             swap(0, --size);
             minHeapify(0);
             return s;
@@ -51,20 +59,11 @@ class Heap {
             }
         }
 
-        void printHeap() {
-            for (int i=0 ; i<size ; i++) {
-                cout << heap[i] << " ";
-            }
-            cout << endl;
+        Edge* getHeap() {
+            return heap;
+        }
+
+        int getWeight(int index) {
+            return heap[index].weight;
         }
 };
-
-int main () {
-    int arr[] = {4, 1, 3, 2, 16, 9, 10, 14, 8, 7};
-    Heap heapObject(arr, 10);
-    heapObject.buildMinHeap();
-    heapObject.printHeap();
-    int min = heapObject.pop();
-    cout << min << endl;
-    heapObject.printHeap();
-}
