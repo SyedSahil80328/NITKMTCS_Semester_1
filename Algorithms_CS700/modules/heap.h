@@ -41,6 +41,20 @@ class Heap {
             }
         }
 
+        void insert(Edge edge) {
+            heap[size] = edge;
+            int i = size++;
+
+            while (i > 0) {
+                int p = (i-1 >> 1); 
+                if (heap[p].weight <= heap[i].weight) {
+                    break;
+                }
+                swap(i, p);
+                i = p;
+            }
+        }
+
         Edge pop() {
             if (size == 0) {
                 Edge error;
@@ -65,5 +79,9 @@ class Heap {
 
         int getWeight(int index) {
             return heap[index].weight;
+        }
+
+        int getSize() {
+            return size;
         }
 };

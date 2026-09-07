@@ -32,6 +32,10 @@ class Graph {
             return mainGraph[node];
         }
 
+        int getEdgeCount() {
+            return edges;
+        }
+
         void addEdge(int u, int v) {
             enqueue(this->mainGraph[u], this->endPoints[u], v);
             if (!directed) {

@@ -2,21 +2,10 @@
 #include "graph.h"
 
 class CycleDetectorU {
-    int *parent;
-    int *rank;
-    int nodes;
-
-    public:
-        CycleDetectorU(int nodes) {
-            parent = new int[nodes];
-            rank = new int[nodes];
-            this->nodes = nodes;
-
-            for (int i = 0; i < nodes; i++) {
-                parent[i] = i;
-                rank[i] = 0;
-            }
-        }
+    private:
+        int *parent;
+        int *rank;
+        int nodes;
 
         int find(int u) {
             if (parent[u] == u) {
@@ -47,6 +36,18 @@ class CycleDetectorU {
             return false;
         }
 
+    public:
+        CycleDetectorU(int nodes) {
+            parent = new int[nodes];
+            rank = new int[nodes];
+            this->nodes = nodes;
+
+            for (int i = 0; i < nodes; i++) {
+                parent[i] = i;
+                rank[i] = 0;
+            }
+        }
+
         bool hasCycle(Graph& graph) {
             for (int start=0 ; start<nodes ; start++) {
                 Node* temp = graph.getAdjacencyList(start);
@@ -58,6 +59,10 @@ class CycleDetectorU {
                 }
             }
             return false;
+        }
+
+        bool formsCycle(int u, int v) {
+            return unite(u, v);
         }
 
         ~CycleDetectorU() {
