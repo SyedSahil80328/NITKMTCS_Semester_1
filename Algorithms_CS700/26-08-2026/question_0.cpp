@@ -36,4 +36,26 @@ int main () {
     cout << "BFS traversal of S6C5: ";
     ta.bfs(dg, 0);
 
+    Graph eg(7, false, false);
+    eg.addEdge(1, 0);
+    eg.addEdge(2, 0);
+    eg.addEdge(3, 0);
+    eg.addEdge(4, 0);
+    eg.addEdge(5, 0);
+    eg.addEdge(1, 2);
+    eg.addEdge(2, 3);
+    eg.addEdge(3, 4);
+    eg.addEdge(4, 5);
+    eg.addEdge(5, 1);
+    eg.addEdge(6, 0);
+    eg.addEdge(6, 1);
+    eg.addEdge(6, 2);
+
+    cout << "Example Graph:\n";
+    eg.print();
+
+    cout << "DFS traversal of EG: ";
+    ta.dfs(dg, 0);
+    cout << "BFS traversal of EG: ";
+    ta.bfs(dg, 0);
 }
