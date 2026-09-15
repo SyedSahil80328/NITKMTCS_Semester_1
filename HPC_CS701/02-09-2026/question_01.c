@@ -1,69 +1,158 @@
 #include <stdio.h>
-#include <time.h>
+#include <stdlib.h>
+#include <limits.h>
 #include <pthread.h>
-#include "q01_utils.h"
+#include <time.h>
 
-void* worker (void* arg) {
-    ThreadData* data = (ThreadData*)arg;
+typedef struct {
+    int sum;
+    int max;
+    int min;
+    int even;
+} Output;
 
-    data->metrics.sum = findSum(data->arr, data->start, data->end);
-    data->metrics.max = findMax(data->arr, data->start, data->end);
-    data->metrics.min = findMin(data->arr, data->start, data->end);
-    data->metrics.even = countEvenElements(data->arr, data->start, data->end);
+typedef struct {
+    int *a;
+    int start;
+    int end;
+    Output metrics;
+} ThreadData;
 
+Output metricsS, metricsP;
+double serial, parallel;
+
+int* initializeArray(int n) {
+    int *a = (int*)malloc(n * sizeof(int));
+
+    srand(42);
+
+    for (int i=0 ; i<n ; i++) {
+        a[i] = rand() % 1000;
+    }
+
+    return a;
+}
+
+Output slave(int *arr, int start, int end) {
+    Output metrics;
+    metrics.even = 0;
+    metrics.max = -1;
+    metrics.min = INT_MAX;
+    metrics.sum = 0;
+
+    for (int i=start ; i<end ; i++) {
+        metrics.sum += arr[i];
+        metrics.max = (metrics.max < arr[i]) ? arr[i] : metrics.max;
+        metrics.min = (metrics.min > arr[i]) ? arr[i] : metrics.min;
+        metrics.even += !(arr[i] & 1);
+    }
+
+    return metrics;
+}
+
+void* worker(void* arg) {
+    ThreadData* td = (ThreadData*)arg;
+    td->metrics = slave(td->a, td->start, td->end);
     return NULL;
 }
 
-void performer(int *arr, int n, int threads, char* message) {
+void printMetrics(Output metrics) {
+    printf("Sum: %d\n", metrics.sum);
+    printf("Max: %d\n", metrics.max);
+    printf("Min: %d\n", metrics.min);
+    printf("Even numbers: %d\n", metrics.even);
+}
+
+void performer(int *a, int n, int tc, char* msg) {
     struct timespec start, end;
-
     clock_gettime(CLOCK_MONOTONIC, &start);
-    
+
     Output metrics;
-    pthread_t thread[threads];
-    ThreadData td[threads];
 
-    for (int i=0 ; i<threads ; i++) {
-        td[i].arr = arr;
-        td[i].start = i * n/threads;
-        td[i].end = (i+1) * n/threads;
-        pthread_create(&thread[i], NULL, worker, &td[i]);
-    }
+    if (tc == 1) {
+        metricsS = slave(a, 0, n);
+    } else {
+        ThreadData td[tc];
+        pthread_t threads[tc];
 
-    for (int i=0 ; i<threads ; i++) {
-        pthread_join(thread[i], NULL);
-    }
+        for (int i=0 ; i<tc ; i++) {
+            td[i].a = a;
+            td[i].start = i * (n/tc);
+            td[i].end = (i+1) * (n/tc);
+        }
 
-    metrics.sum = 0;
-    metrics.even = 0;
-    metrics.max = td[0].metrics.max;
-    metrics.min = td[0].metrics.min;
+        td[tc-1].end = n;
 
-    for (int i=0 ; i<threads ; i++) {
-        metrics.sum += td[i].metrics.sum;
-        metrics.even += td[i].metrics.even;
-        metrics.max = (metrics.max < td[i].metrics.max) ? td[i].metrics.max : metrics.max;
-        metrics.min = (metrics.min > td[i].metrics.min) ? td[i].metrics.min : metrics.min;
+        for (int i=0 ; i<tc ; i++) {
+            pthread_create(&threads[i], NULL, worker, &td[i]);
+        }
+
+        for (int i=0 ; i<tc ; i++) {
+            pthread_join(threads[i], NULL);
+        }
+
+        metrics.sum = 0;
+        metrics.even = 0;
+        metrics.max = td[0].metrics.max;
+        metrics.min = td[0].metrics.min;
+
+        for (int i=0 ; i<tc ; i++) {
+            metrics.sum += td[i].metrics.sum;
+            metrics.even += td[i].metrics.even;
+            metrics.max = (metrics.max < td[i].metrics.max) ? td[i].metrics.max : metrics.max;
+            metrics.min = (metrics.min > td[i].metrics.min) ? td[i].metrics.min : metrics.min;
+        }
+
+        metricsP = metrics;
     }
 
     clock_gettime(CLOCK_MONOTONIC, &end);
-    
-    printf("Result for %s process.\n", message);
-    printResult(metrics, start, end);
+
+    double elapsed = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
+
+    if (tc == 1) {
+        serial = elapsed;
+        parallel = elapsed;
+    } else {
+        parallel = elapsed;
+    }
+
+    printf("Result for %s: %.9f secs.\n", msg, elapsed);
+    printf("Speed-up achieved: %.2f\n", serial/parallel);
+
+    if (tc == 1) {
+        printf("Serial Result:\n");
+        printMetrics(metricsS);
+    }
 }
 
-int main () {
-    size_t n = 1000000;
-    int* arr = initializeArray(n);
+int equal() {
+    return (metricsP.sum == metricsS.sum) && (metricsP.max == metricsS.max) && (metricsP.min == metricsS.min) && (metricsP.even == metricsS.even);
+}
 
-    performer(arr, n, 1, "serial");
-    performer(arr, n, 4, "4 threaded");
-    performer(arr, n, 8, "8 threaded");
-    performer(arr, n, 12, "12 threaded");
-    performer(arr, n, 16, "16 threaded");
+int main() {
+    int n = 1000000;
+    int *a = initializeArray(n);
 
-    printOverall();
+    performer(a, n, 1, "Serial Execution");
 
-    free(arr);
+    printf("\n");
+
+    performer(a, n, 4, "4 threaded Execution");
+    printf("Equality of parallel and serial: %s.\n\n", equal() ? "YES" : "NO");
+
+    performer(a, n, 8, "8 threaded Execution");
+    printf("Equality of parallel and serial: %s.\n\n", equal() ? "YES" : "NO");
+
+    performer(a, n, 12, "12 threaded Execution");
+    printf("Equality of parallel and serial: %s.\n\n", equal() ? "YES" : "NO");
+
+    performer(a, n, 16, "16 threaded Execution");
+    printf("Equality of parallel and serial: %s.\n\n", equal() ? "YES" : "NO");
+
+    free(a);
+
     return 0;
 }
+
+// gcc question_01.c -o question_01 -pthread
