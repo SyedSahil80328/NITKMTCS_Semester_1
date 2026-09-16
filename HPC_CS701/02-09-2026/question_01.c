@@ -134,8 +134,8 @@ int main() {
     int n = 1000000;
     int *a = initializeArray(n);
 
+    printf("Question 1: Parallel Array Statistics using Pthreads.\n\n");
     performer(a, n, 1, "Serial Execution");
-
     printf("\n");
 
     performer(a, n, 4, "4 threaded Execution");

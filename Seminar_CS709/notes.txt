@@ -1,0 +1,14 @@
+Edge Computing replaces the cloud computing to improve efficiency and latency.
+Software for Edge Computers are designed such that power consumption is very less.
+Edge Computers have limited power and resources.
+Real world problems require edge computing, especially where even small latency is not tolerated.
+Scanning the luggages in the airport: Edge Computing.
+Carring the luggages from airport to Police headquarters for scanning and returning to airport: Cloud Computing.
+Second one will cause terrible delay.
+
+Edge Computing suffers with a big challenge of security as it can be easily theft or be read via computers by the hackers.
+Standard cryptography methods have intense mathematics that drain power fromall embedded sensor.
+Lightweight security strategy is needed for security purpose.
+
+Paper 1: Proposed BiLSTM model for threat detection by tracking the traffic in routers and blocks the flow. It detects alert in 184ms with 96.8% accuracy.
+Continue playing from 10:55.

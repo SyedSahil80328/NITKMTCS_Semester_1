@@ -102,6 +102,7 @@ int main () {
         b[i] = rand() % 1000000;
     }
 
+    printf("Question 3: Serial and Parallel Array Addition using Pthreads.\n\n");
     performer(a, b, sc, n, 1, "Serial Execution");
     printf("Correctness: %s\n", isCorrect(a, b, sc, n)?"PASS":"FAIL");
     printf("\n");

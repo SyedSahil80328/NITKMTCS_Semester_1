@@ -164,6 +164,7 @@ int main() {
         sc[i] = original[i];
     }
 
+    printf("Question 2: Serial and Parallel Merge Sort using Pthreads.\n\n");
     performer(sc, saux, n, 1, "Serial Execution");
     printf("Sorted: %s\n", isSorted(sc, n) ? "YES" : "NO");
 

@@ -199,6 +199,7 @@ void testcase(int n) {
 }
 
 int main () {
+    printf("Question 4: Serial and Parallel Matrix Multiplication using Pthreads.\n\n");
     testcase(512);
     testcase(1024);
     testcase(2048);
