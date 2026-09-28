@@ -48,8 +48,10 @@ class ShortestPath {
                 }
             }
 
+            printf("Shortest path from source %d.\n", source);
+
             for (int i=0 ; i<graph.getN() ; i++) {
-                cout << dist[i] << " ";
+                printf("%d -> %d: %d.\n", source, i, dist[i]);
             }
             cout << endl;
 
