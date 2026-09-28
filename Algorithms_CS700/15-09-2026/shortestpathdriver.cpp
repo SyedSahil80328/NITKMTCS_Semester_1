@@ -22,6 +22,9 @@ int main () {
     uwg.print();
 
     ShortestPath sp;
+    cout << "Dijkstra's Algorithm.\n";
     sp.dijkstra(uwg, 0);
+    cout << "Bellman-Ford's Algorithm.\n";
+    sp.bellmanFord(uwg, 0);
     return 0;
 }
