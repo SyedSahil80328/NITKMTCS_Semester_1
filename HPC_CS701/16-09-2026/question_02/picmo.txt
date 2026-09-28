@@ -1,0 +1,132 @@
+--------------------------------------------------------------------------------
+Profile data file 'callgrind.out.10779' (creator: callgrind-3.22.0)
+--------------------------------------------------------------------------------
+I1 cache: 
+D1 cache: 
+LL cache: 
+Timerange: Basic block 0 - 13091869
+Trigger: Program termination
+Profiled target:  ./picmo (PID 10779, part 1)
+Events recorded:  Ir
+Events shown:     Ir
+Event sort order: Ir
+Thresholds:       99
+Include dirs:     
+User annotated:   
+Auto-annotation:  on
+
+--------------------------------------------------------------------------------
+Ir                   
+--------------------------------------------------------------------------------
+204,571,081 (100.0%)  PROGRAM TOTALS
+
+--------------------------------------------------------------------------------
+Ir                    file:function
+--------------------------------------------------------------------------------
+174,816,751 (85.46%)  power_iteration_cmo.c:main [/mnt/c/Users/salma/Desktop/SYED_SAHIL/NITKMTCS_Semester_1/HPC_CS701/16-09-2026/question_02/picmo]
+ 14,025,823 ( 6.86%)  ./stdlib/./stdlib/random_r.c:random_r [/usr/lib/x86_64-linux-gnu/libc.so.6]
+ 11,534,500 ( 5.64%)  ./stdlib/./stdlib/random.c:random [/usr/lib/x86_64-linux-gnu/libc.so.6]
+  3,009,000 ( 1.47%)  ./stdlib/./stdlib/rand.c:rand [/usr/lib/x86_64-linux-gnu/libc.so.6]
+
+--------------------------------------------------------------------------------
+-- Auto-annotated source: power_iteration_cmo.c
+--------------------------------------------------------------------------------
+Ir                   
+
+          .           #include <stdio.h>
+          .           #include <stdlib.h>
+          .           #include <math.h>
+          .           
+          .           #define N 1000
+          .           #define TOL 1e-6
+          .           #define MAX_ITER 1000
+          .           
+          4 ( 0.00%)  int main() {
+          3 ( 0.00%)      double *M = (double*)malloc(N * N * sizeof(double));
+      1,979 ( 0.00%)  => ???:0x00000000001090f0 (1x)
+          3 ( 0.00%)      double *v = (double*)malloc(N * sizeof(double));
+        174 ( 0.00%)  => ???:0x00000000001090f0 (1x)
+          3 ( 0.00%)      double *b = (double*)malloc(N * sizeof(double));
+        174 ( 0.00%)  => ???:0x00000000001090f0 (1x)
+          .           
+          6 ( 0.00%)      if (!M || !v || !b) {
+          .                   printf("Memory allocation failed!\n");
+          .                   return 1;
+          .               }
+          .           
+          2 ( 0.00%)      srand(42);
+      6,234 ( 0.00%)  => ???:0x00000000001090e0 (1x)
+          .           
+      3,004 ( 0.00%)      for (int x=0 ; x<N ; x++) {
+  1,506,500 ( 0.74%)          for (int y=x ; y<N ; y++) {
+  3,003,000 ( 1.47%)              double val = (double)rand() / RAND_MAX;
+ 29,513,355 (14.43%)  => ???:0x0000000000109110 (500,500x)
+  5,005,000 ( 2.45%)              M[x * N + y] = val;
+  5,005,000 ( 2.45%)              M[y * N + x] = val;
+          .                   }
+          .               }
+          .           
+      3,004 ( 0.00%)      for (int i=0 ; i<N ; i++) {
+     11,000 ( 0.01%)          b[i] = (double)rand() / RAND_MAX;
+     58,968 ( 0.03%)  => ???:0x0000000000109110 (1,000x)
+          .               }
+          .           
+          2 ( 0.00%)      double lambda_prev = 0.0;
+          2 ( 0.00%)      double lambda_curr = 0.0;
+          .           
+         19 ( 0.00%)      for (int iter=0 ; iter<MAX_ITER ; iter++) {
+         12 ( 0.00%)          double norm = 0.0;
+          .           
+     18,024 ( 0.01%)          for (int i=0 ; i<N ; i++) {
+     96,000 ( 0.05%)              norm += b[i] * b[i];
+          .                   }
+          .           
+         30 ( 0.00%)          norm = sqrt(norm);
+         60 ( 0.00%)  => ???:0x0000000000109100 (6x)
+         12 ( 0.00%)          lambda_curr = norm;
+          .           
+     18,024 ( 0.01%)          for (int i=0 ; i<N ; i++) {
+     78,000 ( 0.04%)              v[i] = b[i] / norm;
+          .                   }
+          .           
+         42 ( 0.00%)          if (fabs(lambda_curr - lambda_prev) < TOL) {
+          6 ( 0.00%)              printf("Col-Major Power Iteration converged in %d iterations.\n", iter);
+      4,293 ( 0.00%)  => ???:0x00000000001090d0 (1x)
+          1 ( 0.00%)              break;
+          .                   }
+          .           
+         10 ( 0.00%)          lambda_prev = lambda_curr;
+          .           
+     15,020 ( 0.01%)          for (int x=0 ; x<N ; x++) {
+     35,000 ( 0.02%)              b[x] = 0.0;
+ 15,020,000 ( 7.34%)              for (int y=0 ; y<N ; y++) {
+145,000,000 (70.88%)                  b[x] += M[y * N + x] * v[y];
+          .                       }
+          .                   }
+          .               }
+          .           
+          6 ( 0.00%)      printf("Largest Eigenvalue (Col-Major Variant): %.6f\n", lambda_curr);
+      2,922 ( 0.00%)  => ???:0x00000000001090d0 (1x)
+          .           
+          3 ( 0.00%)      free(M);
+         74 ( 0.00%)  => ???:0x00000000001090b0 (1x)
+          3 ( 0.00%)      free(v);
+        170 ( 0.00%)  => ???:0x00000000001090b0 (1x)
+          3 ( 0.00%)      free(b);
+        203 ( 0.00%)  => ???:0x00000000001090b0 (1x)
+          .           
+          1 ( 0.00%)      return 0;
+          2 ( 0.00%)  }
+
+--------------------------------------------------------------------------------
+The following files chosen for auto-annotation could not be found:
+--------------------------------------------------------------------------------
+  ./stdlib/./stdlib/rand.c
+  ./stdlib/./stdlib/random.c
+  ./stdlib/./stdlib/random_r.c
+
+--------------------------------------------------------------------------------
+Ir                   
+--------------------------------------------------------------------------------
+174,816,751 (85.46%)  events annotated
+

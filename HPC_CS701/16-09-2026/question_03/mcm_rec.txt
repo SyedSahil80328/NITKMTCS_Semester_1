@@ -1,0 +1,15 @@
+Minimum scalar multiplications (Recursive): 5250
+
+ Performance counter stats for './mcm_rec':
+
+        3675418285      cycles:u                                                              
+       11050123522      instructions:u                   #    3.01  insn per cycle            
+             14491      cache-references:u                                                    
+              9199      cache-misses:u                   #   63.48% of all cache refs         
+        1440025805      branches:u                                                            
+           2519969      branch-misses:u                  #    0.17% of all branches           
+
+       1.179996566 seconds time elapsed
+
+       1.081231000 seconds user
+       0.000000000 seconds sys

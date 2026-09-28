@@ -1,0 +1,32 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  ns/call  ns/call  name    
+ 96.47      0.82     0.82  2000000   410.00   420.00  tsp_recursive
+  2.35      0.84     0.02 10000000     2.00     2.00  get_return_cost
+  1.18      0.85     0.01                             main
+
+			Call graph
+
+
+granularity: each sample hit covers 4 byte(s) for 1.18% of 0.85 seconds
+
+index % time    self  children    called     name
+                                                 <spontaneous>
+[1]    100.0    0.01    0.84                 main [1]
+                0.82    0.02 2000000/2000000     tsp_recursive [2]
+-----------------------------------------------
+                             86000000             tsp_recursive [2]
+                0.82    0.02 2000000/2000000     main [1]
+[2]     98.8    0.82    0.02 2000000+86000000 tsp_recursive [2]
+                0.02    0.00 10000000/10000000     get_return_cost [3]
+                             86000000             tsp_recursive [2]
+-----------------------------------------------
+                0.02    0.00 10000000/10000000     tsp_recursive [2]
+[3]      2.4    0.02    0.00 10000000         get_return_cost [3]
+-----------------------------------------------
+
+Index by function name
+
+   [3] get_return_cost         [1] main                    [2] tsp_recursive

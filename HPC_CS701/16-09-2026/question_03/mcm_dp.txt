@@ -1,0 +1,16 @@
+Minimum scalar multiplications (Dynamic Programming): 5250
+
+ Performance counter stats for './mcm_dp':
+
+       14474444757      cycles:u                                                              
+       55000124446      instructions:u                   #    3.80  insn per cycle            
+             84776      cache-references:u                                                    
+             46218      cache-misses:u                   #   54.52% of all cache refs         
+        3400026289      branches:u                                                            
+           1740254      branch-misses:u                  #    0.05% of all branches           
+
+       4.565593222 seconds time elapsed
+
+       4.199523000 seconds user
+       0.009229000 seconds sys
+

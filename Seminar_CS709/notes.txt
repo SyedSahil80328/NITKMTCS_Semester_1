@@ -1,14 +1,28 @@
 Edge Computing replaces the cloud computing to improve efficiency and latency.
+
 Software for Edge Computers are designed such that power consumption is very less.
+
 Edge Computers have limited power and resources.
+
 Real world problems require edge computing, especially where even small latency is not tolerated.
+
 Scanning the luggages in the airport: Edge Computing.
 Carring the luggages from airport to Police headquarters for scanning and returning to airport: Cloud Computing.
+
 Second one will cause terrible delay.
 
-Edge Computing suffers with a big challenge of security as it can be easily theft or be read via computers by the hackers.
+Edge computing has so many challenges such as heterogeneity (varying edge node configurations) and untrustworthiness (highly vulnerable to physical theft or digital compromise).
+
 Standard cryptography methods have intense mathematics that drain power fromall embedded sensor.
+
 Lightweight security strategy is needed for security purpose.
 
-Paper 1: Proposed BiLSTM model for threat detection by tracking the traffic in routers and blocks the flow. It detects alert in 184ms with 96.8% accuracy.
-Continue playing from 10:55.
+Paper 1: Proposed BiLSTM model for threat detection by tracking the traffic in routers and blocks the flow. It detects alert in 184ms with 96.8% accuracy. Power consumption is only 5.8W.
+
+Paper 2: Proposed Optimal Task Allocation for dividing the bigger matrices to be multiplied to smaller matrices along with linear coded design on the resultant matrices to share with untrustworthy heterogeneous devices while ensuring lowest execution time.
+
+Paper 3: Proposed CipherText Protection multi-attribute based encryption policy for data accessing only by authorized users along with Time domain outsourcing to restrict the time frame of access on server, preventing large computation on small wearable heart monitor device.
+
+Paper 4: Proposed VECONs with consortium blockchain and smart contaract technologies for secure and efficient data sharing. Additionally proposed three weight subjective logic model for interaction frequency, event timeliness, and trajectory-similarity.
+
+Paper 5: Proposed consortium blockchain based implementation architecture for knowledge market for tradability with the help of knowledge coins, smart contaracts, and proof of trading. Also proposed a game theory for pricing strategy, resulting in secure and efficient knowledge sharing. 

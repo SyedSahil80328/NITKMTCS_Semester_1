@@ -1,0 +1,24 @@
+========================================================
+            INTEL PIN PROFILING SUMMARY (Q1)             
+========================================================
+
+--- (a) Total Instruction Count ---
+Total Dynamic Instructions : 67233372
+
+--- (b) Instruction Mix ---
+Integer Instructions       : 64506419
+Floating Point Instructions : 1377
+Memory Load Instructions   : 19033105
+Memory Store Instructions  : 5015163
+Branch Instructions        : 2725576
+
+--- (c) Branch Direction Statistics ---
+Total Branches             : 2725576
+Total Taken Branches       : 2020493
+Forward Taken Branches     : 310601
+
+--- (d) Dynamic Data Hazard Distribution ---
+Read-After-Write (RAW)     : 60033878
+Write-After-Write (WAW)    : 69932283
+Write-After-Read (WAR)     : 59331998
+========================================================
