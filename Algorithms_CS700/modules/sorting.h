@@ -16,7 +16,7 @@ private:
     void merge(int* arr, int start, int middle, int end) {
         int i1, i2, i3;
         for (i1 = start, i2 = middle + 1, i3 = start; i1 <= middle && i2 <= end; i3++) {
-            auxiliary[i3] = (arr[i1] < arr[i2]) ? arr[i1++] : arr[i2++];
+            auxiliary[i3] = (arr[i1] <= arr[i2]) ? arr[i1++] : arr[i2++];
         }
         for (; i1 <= middle; i1++, i3++) {
             auxiliary[i3] = arr[i1];
